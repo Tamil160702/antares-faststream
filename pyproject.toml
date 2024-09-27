@@ -1,0 +1,83 @@
+[tool.poetry]
+name = "stream_core:anteras"
+version = "1.0.0"
+description = "Faststream Data pipeline for data orchestration to downstream persistance stores, i.e., ScyllaDB, Neo4J and MongoDB"
+authors = ["AJ <aj@andiran.in>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11.9"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.1"
+faststream = {extras = ["nats"], version = "^0.5.14"}
+nats-py = "^2.7.2"
+scylla-driver = "^3.26.9"
+psycopg = {extras = ["binary", "pool"], version = "^3.1.19"}
+pydantic = "^2.7.4"
+
+[tool.poetry.group.dev.dependencies]
+black="24.4.2"
+ruff="0.5.0"
+mypy="1.10.1"
+bandit="1.7.9"
+pytest="8.2.2"
+pytest-asyncio="0.23.7"
+pyupgrade-directories = "^0.3.0"
+types-pyyaml = "^6.0.12.20240311"
+types-setuptools = "^70.1.0.20240627"
+types-ujson = "^5.10.0.20240515"
+
+[tool.pytest.ini_options]
+filterwarnings=["ignore::DeprecationWarning"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11.9"
+ignore_missing_imports = true
+install_types = true
+non_interactive = true
+
+# from https://blog.wolt.com/engineering/2021/09/30/professional-grade-mypy-configuration/
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_any_unimported = false
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.ruff]
+fix = true
+line-length = 88
+target-version = "py311"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "Q",  # flake8-quotes
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "C901",  # too complex
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.bandit]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
